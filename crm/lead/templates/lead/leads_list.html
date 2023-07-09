@@ -18,7 +18,9 @@
         {% for lead in leads %}
             <div class="flex justify-between">
                 <p class="px-2 py-2 w-full {% cycle 'bg-gray-100' '' %}">
-                    <a href="{% url 'leads_detail' lead.id %}">{{lead.name }}</a></p>
+                    <a href="{% url 'leads_detail' lead.id %}">{{lead.name }}</a>
+                </p>
+                
                 <p class="px-2 py-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_priority_display }}</p>
                 <p class="px-2 py-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_status_display }}</p>
             </div>

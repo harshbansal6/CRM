@@ -9,5 +9,24 @@
         {% if lead.description %}
             <p>{{ lead.description }}</p>
         {% endif %}
+
+        <p class="font-semibold">Priority</p>
+        <p class="mb-2">{{ lead.get_priority_display }}</p>
+
+        <p class="font-semibold">Status</p>
+        <p class="mb-2">{{ lead.get_status_display }}</p>
+
+        <p class="font-semibold">Created at</p>
+        <p class="mb-2">{{ lead.created_at }}</p>
+
+        <p class="font-semibold">Modified at</p>
+        <p class="mb-2">{{ lead.modified_at }}</p>
+
+        <hr class="my-6">
+        <a href="{% url 'leads_delete' lead.id %}">Delete</a>
+        
+        <hr class="my-6">
+        
+        <a href="{% url 'leads_list' %}">Back to leads</a>
     </div>
 {% endblock %}
