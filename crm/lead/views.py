@@ -7,7 +7,7 @@ from .models import Lead
 from client.models import Client
 @login_required
 def leads_list(request):
-    leads = Lead.objects.filter(created_by=request.user)
+    leads = Lead.objects.filter(created_by=request.user, converted_to_clients=False)
 
     context = {'leads': leads}
 
@@ -75,7 +75,8 @@ def convert_to_client(request,pk):
     client = Client.objects.create(
         name = lead.name,
         email = lead.email,
-        description = lead.description
+        description = lead.description,
+        created_by=request.user,
     )
 
     lead.converted_to_clients = True
