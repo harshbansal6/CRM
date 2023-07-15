@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'client',
+    'team',
     'lead',
     'userprofile',  
     'dashboard',
