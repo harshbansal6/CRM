@@ -23,13 +23,28 @@
         <p class="mb-2">{{ lead.modified_at }}</p>
 
         <hr class="my-6">
+        
+        <form id="lead_delete_form" method="post" action="{% url 'leads:delete' lead.id %}">
+            {% csrf_token %}
+        </form>
 
         <a href="{% url 'leads:convert' lead.id %}" class="py-2 px-4 rounded-xl bg-blue-500 text-white">Convert to client</a>
         <a href="{% url 'leads:edit' lead.id %}" class="py-2 px-4 rounded-xl bg-teal-500 text-white">Edit</a>
-        <a href="{% url 'leads:delete' lead.id %}" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+        <a href="#" onclick="document.getElementById('lead_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
         
-        <hr class="my-6">
-        
+        <hr class="my-4">
+
+        <h2 class="text-3xl">Comments</h2> 
+
+        <form method="post" accept=".">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+        </form>
+
+        <hr class="my-4">
         <a href="{% url 'leads:list' %}">Back to leads</a>
     </div>
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Add lead{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
     <div class="py-6 px-6">
-        <h1 class="text-xl">Add lead</h1>
-
-        {% if team.plan.max_leads > team.leads.all|length %}
+        <h1 class="text-xl">{{ title }}</h1>
+        
+        {% if team.plan.max_leads > team.leads.count or title == 'Edit lead' %}
             <form method="post" action=".">
                 {% csrf_token %}
 
@@ -15,7 +15,9 @@
                 <button class="py-4 px-8 bg-teal-500 text-white rounded-xl">Submit</button>
             </form>
         {% else %}
-            <p>You have reached your limit</p>
+            <div class="mt-6 px-6 py-4 bg-teal-400 rounded-xl text-white">
+                Your team have has reached the maximum number of leads. Try upgrading
+            </div>
         {% endif %}
     </div>
 {% endblock %}
