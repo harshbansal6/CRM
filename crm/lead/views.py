@@ -123,3 +123,18 @@ class ConvertToClientView(View):
         messages.success(request, 'The lead was converted to client.')
 
         return redirect('leads:list')
+
+class AddCommentView(View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        form = AddCommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.team = self.request.user.userprofile.get_active_team()
+            comment.created_by = request.user
+            comment.lead_id = pk
+            comment.save()
+
+        return redirect('leads:detail', pk=pk)

@@ -34,9 +34,19 @@
         
         <hr class="my-4">
 
-        <h2 class="text-3xl">Comments</h2> 
-
-        <form method="post" accept=".">
+        <h2 class="text-xl">Comments</h2> 
+        
+        <div class="space-y-4">
+            {% for comment in lead.comments.all %}
+                <div class="bg-gray-100 p-6 rounded-xl">
+                    <p class="mb-2"><strong>{{ comment.created_by }}</strong> @ {{ comment.created_at }}</p>
+                    
+                    {{ comment.content }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <form method="post" action="{% url 'leads:add_comment' lead.id %}">
             {% csrf_token %}
 
             {{ form.as_p }}
