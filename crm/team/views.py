@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import Team
 from .forms import TeamForm
@@ -13,6 +14,8 @@ def edit_team(request, pk):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'The changes are saved')
+            return redirect('userprofile:myaccount')
     else:
         form = TeamForm(instance=team)
 
