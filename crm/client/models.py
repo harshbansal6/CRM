@@ -17,3 +17,23 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Comment(models.Model):
+    team = models.ForeignKey(Team, related_name='client_comments', on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, related_name='comments', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='client_comments', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(blank=True,null=True)
+
+    def __str__(self):
+        return self.created_by.username
+
+class ClientFile(models.Model):
+    team = models.ForeignKey(Team, related_name='client_files', on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, related_name='files', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='client_files', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='clientfiles/')
+
+    def __str__(self):
+        return self.created_by.username

@@ -7,13 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views import View
 
-from .forms import AddCommentForm
+from .forms import AddCommentForm, AddFileForm
 from .models import Lead
 
 from team.models import Team
 
 
-from client.models import Client
+from client.models import Client, Comment as ClientComment
 
 class LeadListView(ListView):
     model = Lead
@@ -37,7 +37,8 @@ class LeadDetailView(DetailView):
     def get_context_data(self, **kwargs: Any):
         context =  super().get_context_data(**kwargs)
         context['form'] = AddCommentForm()
-
+        context['fileform'] = AddFileForm()
+        
         return context
     
     def get_queryset(self):
@@ -120,6 +121,17 @@ class ConvertToClientView(View):
     )
         lead.converted_to_clients = True
         lead.save()
+
+        comments = lead.comments.all()
+
+        for comment in comments:
+            ClientComment.objects.create(
+                client = client,
+                content = comment.content,
+                created_by = comment.created_by,
+                team = team,
+            )
+
         messages.success(request, 'The lead was converted to client.')
 
         return redirect('leads:list')
@@ -136,5 +148,22 @@ class AddCommentView(View):
             comment.created_by = request.user
             comment.lead_id = pk
             comment.save()
+
+        return redirect('leads:detail', pk=pk)
+    
+class AddFileView(View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        form = AddFileForm(request.POST)
+
+        if form.is_valid():
+            team = Team.objects.filter(created_by=request.user)[0]
+
+            file = form.save(commit=False)
+            file.team = team
+            file.lead_id = pk
+            file.created_by = request.user
+            file.save()
 
         return redirect('leads:detail', pk=pk)
