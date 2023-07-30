@@ -1,2 +1,1 @@
-# CRM
-CRM using django
+# tealcrm
