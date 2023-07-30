@@ -5,6 +5,15 @@ from django.contrib import messages
 from .models import Team
 from .forms import TeamForm
 
+
+@login_required
+def detail(request, pk):
+    team = get_object_or_404(Team, created_by=request.user, pk=pk)
+
+    return render(request, 'team/detail.html', {'team': team})
+
+
+
 @login_required
 def edit_team(request, pk):
     team = get_object_or_404(Team, created_by=request.user, pk=pk)

@@ -5,6 +5,25 @@ from django.contrib import messages
 from .models import Client
 from .forms import AddClientForm, AddCommentForm, AddFileForm
 from team.models import Team
+import csv
+from django.http import HttpResponse
+
+
+@login_required
+def client_export(request):
+    clients = Client.objects.filter(created_by=request.user)
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="clients.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(['Client', 'Description', 'Created at', 'Created by'])
+
+    for client in clients:
+        writer.writerow([client.name, client.description, client.created_at, client.created_by])
+        
+    return response
 
 @login_required
 def clients_list(request):

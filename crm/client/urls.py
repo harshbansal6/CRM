@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.clients_delete, name='delete'),
     path('<int:pk>/edit/', views.clients_edit, name='edit'),
     path('<int:pk>/add-comment/', views.clients_detail, name='add_comment'),
-    path('<int:pk>/add-file/', views.clients_add_file, name='add_file')
+    path('<int:pk>/add-file/', views.clients_add_file, name='add_file'),
+    path('export/', views.client_export, name='export'),
 ]
